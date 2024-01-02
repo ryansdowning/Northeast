@@ -26,6 +26,6 @@ Coming soon:
 - `NORTHEAST_SMTP_PASSWORD` - The password of the SMTP account associated with the username. If using gmail, you will need to obtain an [app password](https://support.google.com/accounts/answer/185833?hl=en).
 - `NORTHEAST_HEADLESS` - Set to `true` if you want to run selenium in headless mode. Defaults to `false`.
 
-5. Run the script with `poetry run python -m northeast.price_check your.email@example.com CONFIRMATION_CODE FIRST_NAME LAST_NAME --threshold -1`
+4. Run the script with `poetry run python -m northeast.price_check your.email@example.com CONFIRMATION_CODE FIRST_NAME LAST_NAME --threshold -1`
 
 \* threshold is the price difference to trigger an email alert for. For example, if the threshold is -1, an email will be sent if the price lowers at all. If the threshold is -10, an email will only be sent if the price decreases at least $10.
