@@ -8,6 +8,7 @@ from email.mime.text import MIMEText
 from dotenv import load_dotenv
 from loguru import logger
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -18,6 +19,7 @@ SMTP_SERVER = os.environ.get("NORTHEAST_SMTP_SERVER", "smtp.gmail.com")
 SMTP_PORT = os.environ.get("NORTHEAST_SMTP_PORT", 587)
 SMTP_USERNAME = os.environ.get("NORTHEAST_SMTP_USERNAME")
 SMTP_PASSWORD = os.environ.get("NORTHEAST_SMTP_PASSWORD")
+HEADLESS = os.environ.get("NORTHEAST_HEADLESS", "false") == "true"
 
 
 def send_email(recipient: str, subject: str, body: str):
@@ -40,7 +42,11 @@ class NorthEast:
         self.first_name = first_name
         self.last_name = last_name
         self.threshold = threshold
-        self.driver = webdriver.Chrome()
+
+        options = Options()
+        if HEADLESS:
+            options.add_argument("--headless")
+        self.driver = webdriver.Chrome(options=options)
         self.waiter = WebDriverWait(self.driver, 10)
 
     def send_price_alert_email(self, flight_number: str, price_change: int):
@@ -153,7 +159,7 @@ class NorthEast:
 if __name__ == "__main__":
     # Replace these!
     # Threshold is number of whole dollars to trigger email alert if price changes at least the threshold
-    # amount. For example, -1 will send an alert if the price lowers at all, where a threshold of -10 will only send an 
+    # amount. For example, -1 will send an alert if the price lowers at all, where a threshold of -10 will only send an
     # alert if the prices decreases at least 10 dollars.
     northeast = NorthEast("your.email@example.com", "CONFIRMATION_CODE", "FIRST_NAME", "LAST_NAME", threshold=0)
 

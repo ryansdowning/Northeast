@@ -24,6 +24,7 @@ Coming soon:
 - `NORTHEAST_SMTP_PORT` - The port of your SMTP server. Defaults to `587`.
 - `NORTHEAST_SMTP_USERNAME` - The email of your SMTP username, also used as the sender's email address.
 - `NORTHEAST_SMTP_PASSWORD` - The password of the SMTP account associated with the username. If using gmail, you will need to obtain an [app password](https://support.google.com/accounts/answer/185833?hl=en).
+- `NORTHEAST_HEADLESS` - Set to `true` if you want to run selenium in headless mode. Defaults to `false`.
 
 4. Modify the values in `price_check.py` below where it says "Replace these!".
 
