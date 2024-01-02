@@ -1,10 +1,10 @@
+import argparse
 import os
 import re
 import smtplib
 import time
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import argparse
 
 from dotenv import load_dotenv
 from loguru import logger
@@ -45,7 +45,9 @@ class Northeast:
         self.threshold = threshold
 
         options = Options()
-        options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36')
+        options.add_argument(
+            "--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        )
         if HEADLESS:
             options.add_argument("--headless")
         self.driver = webdriver.Chrome(options=options)
@@ -172,7 +174,7 @@ if __name__ == "__main__":
         confirmation_code=args.confirmation_code,
         first_name=args.first_name,
         last_name=args.last_name,
-        threshold=args.threshold
+        threshold=args.threshold,
     )
     northeast.check_for_price_changes()
     northeast.driver.quit()
