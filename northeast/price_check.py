@@ -4,6 +4,7 @@ import smtplib
 import time
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import argparse
 
 from dotenv import load_dotenv
 from loguru import logger
@@ -35,7 +36,7 @@ def send_email(recipient: str, subject: str, body: str):
         server.sendmail(SMTP_USERNAME, recipient, message.as_string())
 
 
-class NorthEast:
+class Northeast:
     def __init__(self, email: str, confirmation_code: str, first_name: str, last_name: str, threshold: int = 0):
         self.email = email
         self.confirmation_code = confirmation_code
@@ -158,11 +159,20 @@ class NorthEast:
 
 
 if __name__ == "__main__":
-    # Replace these!
-    # Threshold is number of whole dollars to trigger email alert if price changes at least the threshold
-    # amount. For example, -1 will send an alert if the price lowers at all, where a threshold of -10 will only send an
-    # alert if the prices decreases at least 10 dollars.
-    northeast = NorthEast("your.email@example.com", "CONFIRMATION_CODE", "FIRST_NAME", "LAST_NAME", threshold=0)
+    parser = argparse.ArgumentParser(description="NorthEast CLI")
+    parser.add_argument("email", help="Your email address")
+    parser.add_argument("confirmation_code", help="Confirmation code")
+    parser.add_argument("first_name", help="Your first name")
+    parser.add_argument("last_name", help="Your last name")
+    parser.add_argument("--threshold", type=int, default=-1, help="Threshold value")
+    args = parser.parse_args()
 
+    northeast = Northeast(
+        email=args.email,
+        confirmation_code=args.confirmation_code,
+        first_name=args.first_name,
+        last_name=args.last_name,
+        threshold=args.threshold
+    )
     northeast.check_for_price_changes()
     northeast.driver.quit()
